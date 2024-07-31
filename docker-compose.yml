@@ -1,0 +1,34 @@
+services:
+  tubesage:
+    build: .
+    ports:
+      - "5000:5000"
+    depends_on:
+      - ollama
+
+  ollama:
+    build:
+      context: .
+      dockerfile: DockerfileOllama
+    ports:
+      - "11434:11434"
+    volumes:
+      - .:/code
+      - ./ollama/ollama:/root/.ollama
+    container_name: ollama
+    pull_policy: always
+    tty: true
+    restart: always
+    environment:
+      - OLLAMA_KEEP_ALIVE=24h
+      - OLLAMA_HOST=0.0.0.0
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: [gpu]
+    networks:
+      - ollama-docker
+
+networks:
+  ollama-docker:

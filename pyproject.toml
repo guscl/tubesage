@@ -8,6 +8,7 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.11"
 youtube-transcript-api = "^0.6.2"
+flask = "^3.0.3"
 
 
 [tool.poetry.group.dev.dependencies]
