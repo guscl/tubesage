@@ -9,6 +9,9 @@ readme = "README.md"
 python = "^3.11"
 youtube-transcript-api = "^0.6.2"
 flask = "^3.0.3"
+langchain-community = "^0.2.10"
+langchain-text-splitters = "^0.2.2"
+langchain-chroma = "^0.1.2"
 
 
 [tool.poetry.group.dev.dependencies]

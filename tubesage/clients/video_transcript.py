@@ -15,7 +15,21 @@ class VideoTranscriptClient:
 
 
 class YoutubeTranscriptClient(VideoTranscriptClient):
+    """
+    A client class for retrieving transcripts from YouTube videos.
+    """
+
     def get_transcript(self, video_id: str) -> Tuple[List[YoutubeTranscript], str]:
+        """
+        Retrieves the transcript and full text of a YouTube video.
+
+        Args:
+            video_id (str): The ID of the YouTube video.
+
+        Returns:
+            Tuple[List[YoutubeTranscript], str]: A tuple containing a list of YoutubeTranscript objects
+            representing the individual parts of the transcript, and a string containing the full transcript.
+        """
         transcripts = []
         full_transcript_parts = []
 
@@ -49,9 +63,8 @@ if __name__ == "__main__":
     client = YoutubeTranscriptClient()
     key = "VMj-3S1tku0&t"
 
+    transcripts, full_transcript = client.get_transcript(key)
     try:
-        transcripts, full_transcript = client.get_transcript(key)
-
         data_dir = "../data"
         if not os.path.exists(data_dir):
             os.makedirs(data_dir)
@@ -63,4 +76,4 @@ if __name__ == "__main__":
 
         logger.info(f"Transcript saved to {transcript_path}")
     except Exception as e:
-        logger.error(f"Failed to retrieve transcript for video ID: {key} - {e}")
+        logger.error(f"Failed to save transcript for video ID: {key} - {e}")
