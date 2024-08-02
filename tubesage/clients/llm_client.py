@@ -1,5 +1,5 @@
 import logging
-from langchain_ollama.llms import OllamaLLM
+from langchain_ollama.chat_models import ChatOllama
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
@@ -23,7 +23,7 @@ class OllamaLLMClient(LLMClient):
     # This odd base_url is because I'm running both images with the same docker-compose file sharing the same network
     def __init__(self, model: str, base_url: str = "http://ollama:11434"):
         try:
-            self.llm = OllamaLLM(base_url=base_url, model=model, temperature=0)
+            self.llm = ChatOllama(base_url=base_url, model=model, temperature=0)
             logger.info(f"Initialized OllamaLLM with model: {model}")
         except Exception as e:
             logger.error(f"Failed to initialize OllamaLLM: {e}")
@@ -41,7 +41,7 @@ class OllamaLLMClient(LLMClient):
         """
         return self.llm.invoke(input)
 
-    def get_llm(self) -> OllamaLLM:
+    def get_llm(self) -> ChatOllama:
         """
         Get the underlying OllamaLLM instance.
 

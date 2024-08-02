@@ -6,6 +6,7 @@ from tubesage.services.text_splitter import TextSplitter
 from tubesage.clients.embbeding_client import EmbeddingClient
 from tubesage.clients.video_transcript import YoutubeTranscriptClient
 from tubesage.clients.vector_db import ChromaClient
+from tubesage.util.extract_video_id import extract_video_id
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
@@ -24,7 +25,7 @@ class TranscribeVideoController:
         self.embedding_client = embedding_client
 
     def run(self, video_url: str):
-        video_id = self._extract_video_id(video_url)
+        video_id = extract_video_id(video_url)
         if video_id in self.chroma_retriever_map:
             return
 
@@ -49,10 +50,3 @@ class TranscribeVideoController:
         except Exception as e:
             logger.error(f"Failed to transcribe video: {e}")
             raise e
-
-    def _extract_video_id(self, video_url: str) -> str:
-        match = re.search(r"v=([^&]+)", video_url)
-        if match:
-            return match.group(1)
-        else:
-            raise ValueError("Invalid YouTube URL")
