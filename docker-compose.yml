@@ -34,5 +34,18 @@ services:
     networks:
       - ollama-docker
 
+  streamlit:
+    build:
+      context: .
+      dockerfile: DockerfileStreamlit
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./streamlit-ui:/app
+    depends_on:
+      - tubesage
+    networks:
+      - ollama-docker
+
 networks:
   ollama-docker:
