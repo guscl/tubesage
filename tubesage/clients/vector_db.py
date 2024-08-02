@@ -1,6 +1,6 @@
 import logging
 from typing import List
-from langchain_community.vectorstores import Chroma
+from langchain_chroma import Chroma
 from langchain_core.vectorstores import VectorStoreRetriever
 from tubesage.services.text_splitter import TextSplitter
 from tubesage.clients.embbeding_client import EmbeddingClient
@@ -132,10 +132,10 @@ if __name__ == "__main__":
         mathematical expression so in particular a dot grad is 138 so if we slightly nudge a and make it slightly larger 138 is telling us that g will grow and the slope of that growth is going to 
         be 138 and the slope of growth of b is going to be 645. so that's going to tell us about how g will respond if a and b get tweaked a tiny amount in a positive direction okay now you might be"""
 
-    from tubesage.services.text_splitter import LangCahinSmartTextSplitter
+    from tubesage.services.text_splitter import LangChainSmartTextSplitter
     from tubesage.clients.embbeding_client import OllamaEmbeddingClient
 
-    text_splitter = LangCahinSmartTextSplitter()
+    text_splitter = LangChainSmartTextSplitter()
     embedding_client = OllamaEmbeddingClient("llama3.1")
 
     db = ChromaClient(text_splitter, embedding_client)

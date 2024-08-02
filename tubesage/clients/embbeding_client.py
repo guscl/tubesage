@@ -16,7 +16,8 @@ class EmbeddingClient:
 
 
 class OllamaEmbeddingClient(EmbeddingClient):
-    def __init__(self, model: str, base_url: str = "http://localhost:11434"):
+    # This odd base_url is because I'm running both images with the same docker-compose file sharing the same network
+    def __init__(self, model: str, base_url: str = "http://ollama:11434"):
         """
         Initialize the OllamaClient with a specific model.
 

@@ -1,6 +1,6 @@
 import logging
 from tubesage.clients.llm_client import LLMClient
-from tubesage.clients.vector_db import VectorDBClient
+from langchain_core.vectorstores import VectorStoreRetriever
 from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain_core.prompts import ChatPromptTemplate
 from langchain.chains.retrieval import create_retrieval_chain
@@ -16,7 +16,7 @@ class QAEngine:
 
 
 class LangChainQA(QAEngine):
-    def __init__(self, llm_client: LLMClient, vector_db_client: VectorDBClient):
+    def __init__(self, llm_client: LLMClient, vector_retriever: VectorStoreRetriever):
         try:
             prompt = ChatPromptTemplate.from_template(
                 """
@@ -25,7 +25,7 @@ class LangChainQA(QAEngine):
 
                 First, analyze the context carefully and identify the key information relevant to the question. 
                 Then, consider how this information relates to the question being asked. 
-                Finally, provide a clear and concise answer based on your analysis.
+                Finally, provide a clear answer based on your analysis.
                                                     
                 Be clear whether or not the provided answer is based on the context or your internal knowledge.
                 If the context was relevant, also point out the specific part of the context that led you to the answer.
@@ -39,7 +39,7 @@ class LangChainQA(QAEngine):
             )
 
             document_chain = create_stuff_documents_chain(llm_client.get_llm(), prompt)
-            self.retrieval_chain = create_retrieval_chain(vector_db_client.get_retriever(), document_chain)
+            self.retrieval_chain = create_retrieval_chain(vector_retriever, document_chain)
 
             logger.info("Initialized LangChainQA")
         except Exception as e:
@@ -48,7 +48,7 @@ class LangChainQA(QAEngine):
 
     def invoke(self, input: str):
         try:
-            return self.retrieval_chain.invoke(input)
+            return self.retrieval_chain.invoke(input)["answer"]
         except Exception as e:
             logger.error(f"An error occurred while invoking LangChainQA: {e}")
             raise
@@ -59,12 +59,12 @@ if __name__ == "__main__":
 
     async def main():
         from tubesage.clients.llm_client import OllamaLLMClient
-        from tubesage.services.text_splitter import LangCahinSmartTextSplitter
+        from tubesage.services.text_splitter import LangChainSmartTextSplitter
         from tubesage.clients.embbeding_client import OllamaEmbeddingClient
         from tubesage.clients.video_transcript import YoutubeTranscriptClient
         from tubesage.clients.vector_db import ChromaClient
 
-        text_splitter = LangCahinSmartTextSplitter(chunk_size=4000)
+        text_splitter = LangChainSmartTextSplitter(chunk_size=4000)
         embedding_client = OllamaEmbeddingClient("llama3.1")
         llm_client = OllamaLLMClient(model="llama3.1")
 
@@ -75,7 +75,7 @@ if __name__ == "__main__":
 
         chroma_client = ChromaClient(text_splitter, embedding_client)
         await chroma_client.add_async_texts(full_transcript)
-        qa_engine = LangChainQA(llm_client, chroma_client)
+        qa_engine = LangChainQA(llm_client, chroma_client.get_retriever())
 
         print(qa_engine.invoke({"input": "What is the video about?"}))
 

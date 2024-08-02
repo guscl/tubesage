@@ -5,6 +5,4 @@ WORKDIR /root/.ollama
 EXPOSE 11434
 
 # Run ollama server, wait a bit for it to start, then pull the latest version of the Llama3.1 model
-RUN ollama serve & sleep 5 && ollama run llama3.1
-
-
+RUN ollama serve & sleep 10 && ollama run llama3.1

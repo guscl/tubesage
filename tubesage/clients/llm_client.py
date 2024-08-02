@@ -17,12 +17,13 @@ class OllamaLLMClient(LLMClient):
 
     Args:
         model (str): The name of the language model to use.
-        base_url (str, optional): The base URL of the OllamaLLM server. Defaults to "http://localhost:11434".
+        base_url (str, optional): The base URL of the OllamaLLM server.
     """
 
-    def __init__(self, model: str, base_url: str = "http://localhost:11434"):
+    # This odd base_url is because I'm running both images with the same docker-compose file sharing the same network
+    def __init__(self, model: str, base_url: str = "http://ollama:11434"):
         try:
-            self.llm = OllamaLLM(base_url=base_url, model=model)
+            self.llm = OllamaLLM(base_url=base_url, model=model, temperature=0)
             logger.info(f"Initialized OllamaLLM with model: {model}")
         except Exception as e:
             logger.error(f"Failed to initialize OllamaLLM: {e}")

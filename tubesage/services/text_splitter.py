@@ -12,7 +12,7 @@ class TextSplitter:
         pass
 
 
-class LangCahinSmartTextSplitter(TextSplitter):
+class LangChainSmartTextSplitter(TextSplitter):
     def __init__(self, chunk_size=1000, chunk_overlap=100):
         """
         Initialize LangCahinSmartTextSplitter.
@@ -54,7 +54,7 @@ class LangCahinSmartTextSplitter(TextSplitter):
 
 
 if __name__ == "__main__":
-    client = LangCahinSmartTextSplitter()
+    client = LangChainSmartTextSplitter()
 
     text = """hello my name is andre and i've been training deep neural networks for a bit more than a decade and in this lecture i'd like 
     to show you what neural network training looks like under the hood so in particular we are going to start with a blank jupiter notebook and by 
