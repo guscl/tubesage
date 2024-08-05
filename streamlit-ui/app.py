@@ -47,7 +47,7 @@ for message in st.session_state.messages:
         st.markdown(message["content"])
 
 # Handle user input and API response
-if youtube_url and "transcript" in st.session_state and st.session_state.transcript:
+if youtube_url and "transcript" in st.session_state:
     if prompt := st.chat_input("What is up?"):
         st.session_state.messages.append({"role": "user", "content": prompt})
         with st.chat_message("user"):
