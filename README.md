@@ -4,6 +4,8 @@
 
 LLM based app that understands youtube videos and answer questions about it.
 
+![TubeSage](images/system.png)
+
 ## Project Architecture Overview
 
 
@@ -63,7 +65,7 @@ To get started with TubeSage, follow these steps:
 
    Ask qestions in the textbox at the end of the page. TubeSage will provide answers based on the transcribed and embedded text.
 
-![TubeSage](images/system.png)
+
 
 ## Contributing
 
@@ -71,5 +73,5 @@ Feel free to submit issues or pull requests. Contributions are welcome!
 
 ## Contact
 
-For questions, please contact [correia.gustavol@gmail.com] or open an issue on the [GitHub repository](https://github.com/guscl/tubesage).
+For questions, please contact [correia.gustavol@gmail.com] or open an issue on the [GitHub repository](https://github.com/guscl/tubesage/issues).
 
