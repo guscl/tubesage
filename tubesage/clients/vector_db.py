@@ -44,6 +44,16 @@ class ChromaClient(VectorDBClient):
             raise
 
     async def add_async_texts(self, raw_doc: str):
+        """
+        Add async texts to chroma concurrently.
+
+        Args:
+            text (str): The whole doc text to add.
+
+        Raises:
+            Exception: If an error occurs while adding to Chroma.
+
+        """
         try:
             splits = self.text_splitter.split(raw_doc)
             await self.chroma.aadd_texts(splits)
@@ -52,6 +62,16 @@ class ChromaClient(VectorDBClient):
             logger.error(f"Failed to add async docs to  Chroma: {e}")
 
     def add_concurrent_texts(self, raw_doc: str):
+        """
+        Add texts to chroma concurrently.
+
+        Args:
+            text (str): The whole doc text to add.
+
+        Raises:
+            Exception: If an error occurs while adding to Chroma.
+
+        """
         try:
             splits = self.text_splitter.split(raw_doc)
             with concurrent.futures.ThreadPoolExecutor(max_workers=os.cpu_count()) as executor:
@@ -63,6 +83,16 @@ class ChromaClient(VectorDBClient):
             raise
 
     def add_text(self, text: str):
+        """
+        Add text to chroma.
+
+        Args:
+            text (str): The text to add.
+
+        Raises:
+            Exception: If an error occurs while adding to Chroma.
+
+        """
         try:
             self.chroma.add_texts([text])
             logger.info("Added text to Chroma")
