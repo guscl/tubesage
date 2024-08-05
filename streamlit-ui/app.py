@@ -4,6 +4,7 @@ import requests
 
 # This odd URL is due to the fact that we are running the Streamlit
 TUBESAGE_API = os.environ.get("TUBESAGE_API", "http://tubesage:5000")
+TUBESAGE_API_KEY = os.environ.get("TUBESAGE_API_KEY", "tubesage_api_key")
 
 st.title(":mage: TubeSage - Ask anything about YouTube videos")
 
@@ -15,7 +16,11 @@ if "messages" not in st.session_state:
 # Function to fetch data from the API
 def fetch_youtube_transcript(url):
     try:
-        response = requests.post(f"{TUBESAGE_API}/v1/transcribe-video", json={"video_url": url})
+        response = requests.post(
+            f"{TUBESAGE_API}/v1/transcribe-video",
+            json={"video_url": url},
+            headers={"Authorization": f"ApiKey {TUBESAGE_API_KEY}"},
+        )
         response.raise_for_status()
         st.session_state.transcript = response.json().get("transcription", "")
         st.info("Video transcribed, you can start chatting with the assistant now!")
@@ -49,7 +54,11 @@ if youtube_url and "transcript" in st.session_state and st.session_state.transcr
             st.markdown(prompt)
 
         try:
-            response = requests.post(f"{TUBESAGE_API}/v1/invoke", json={"input": prompt, "video_url": youtube_url})
+            response = requests.post(
+                f"{TUBESAGE_API}/v1/invoke",
+                json={"input": prompt, "video_url": youtube_url},
+                headers={"Authorization": f"ApiKey {TUBESAGE_API_KEY}"},
+            )
             response.raise_for_status()
             assistant_response = response.json().get("response", "")
             st.session_state.messages.append({"role": "assistant", "content": assistant_response})

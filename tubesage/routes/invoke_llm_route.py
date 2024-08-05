@@ -2,6 +2,7 @@ from werkzeug.exceptions import BadRequest
 from flask_restful import Resource
 from flask import request
 from tubesage.controllers.invoke_llm_controller import InvokeLLMController
+from tubesage.decorators.require_auth import require_auth
 import logging
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
@@ -15,6 +16,7 @@ class InvokeLLMRouteV1(Resource):
     ):
         self.controller = controller
 
+    @require_auth
     def post(self):
         request_data = request.get_json()
 
