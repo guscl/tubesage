@@ -19,6 +19,8 @@ def fetch_youtube_transcript(url):
         response.raise_for_status()
         st.session_state.transcript = response.json().get("transcription", "")
         st.info("Video transcribed, you can start chatting with the assistant now!")
+        # restart the chat
+        st.session_state.messages = []
     except Exception:
         st.session_state.transcript = ""
         st.error(

@@ -22,7 +22,7 @@ def test_get_emebeddings(mock_embeddings):
     client = OllamaEmbeddingClient("any_model")
     text = "any text"
 
-    with patch("tubesage.clients.ollama.OllamaEmbeddingClient.get_embedding", return_value=mock_embeddings):
+    with patch("tubesage.clients.embbeding_client.OllamaEmbeddingClient.get_embedding", return_value=mock_embeddings):
         result_embeddings = client.get_embedding(text)
 
     assert result_embeddings == expected_embeddings
@@ -33,7 +33,7 @@ def test_get_embeddings_unexpected_error():
     text = "any_text"
 
     with patch(
-        "tubesage.clients.ollama.OllamaEmbeddingClient.get_embedding",
+        "tubesage.clients.embbeding_client.OllamaEmbeddingClient.get_embedding",
         side_effect=Exception("Unexpected error"),
     ):
         with pytest.raises(Exception, match="Unexpected error"):
