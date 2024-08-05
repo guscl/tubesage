@@ -34,7 +34,7 @@ class YoutubeTranscriptClient(VideoTranscriptClient):
         full_transcript_parts = []
 
         try:
-            response_list = YouTubeTranscriptApi.get_transcript(video_id)
+            response_list = YouTubeTranscriptApi.get_transcript(video_id, languages=["en", "pt", "es", "de"])
         except TranscriptsDisabled:
             logger.error(f"Transcripts are disabled for video ID: {video_id}")
             raise
